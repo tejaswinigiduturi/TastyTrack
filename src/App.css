@@ -7,9 +7,382 @@
   pointer-events: none;
 }
 
+.App-logo-spin {
+  animation: App-logo-spin infinite 20s linear;
+}
+
+.highlight {
+  color: tomato;
+  font-weight: 500%;
+}
+.card-body{
+  background: url('./Images/Background.png') no-repeat center center/cover;
+  color: white;
+}
+.edit-card{
+   background: url('./Images/download.jpg') no-repeat center center/cover;
+  color: white;
+}
+.user-container{
+  background: url('./Images/user\ background.jpg') no-repeat center center/cover;
+  color: white;
+}
+/* Full-screen landing page styling */
+.home-container {
+  min-height: 100vh;
+  width: 100%;
+  background: url("./Images/Background.png") no-repeat center center/cover;
+  position: relative;
+  color: tomato;
+}
+
+/* Add overlay for readability */
+.home-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.blinking-cursor {
+  font-weight: bold;
+  color: white;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.home-lead{
+  padding: 0px;
+  font-size: 20px;
+  
+}
+
+/* Center content properly */
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 40px;
+}
+
+.signup-card {
+  background: url("./Images/login.bg.jpg") no-repeat center center/cover;
+
+  color: white;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+.dashboard-bg {
+  background: url("./Images/Background.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.dashboard-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  padding-top: 70px;
+  animation: fadeIn 0.8s ease;
+}
+
+.Head-dashboard {
+  color: tomato;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: url("./Images/side\ bar\ bg.png");
+  color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 2rem 1rem;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.4);
+  z-index: 1100;
+  animation: slideIn 0.3s ease;
+}
+
+.sidebar h4 {
+  color: tomato;
+  font-weight: bold;
+}
+
+.card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Buttons */
+.btn-warning {
+  background-color: tomato;
+  border: none;
+  color: #000;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+  background-color: tomato;
+  transform: scale(1.05);
+}
+
+/* Responsive grid */
+@media (max-width: 992px) {
+  .col-md-3 {
+    flex: 0 0 45%;
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .sidebar {
+    width: 200px;
+    padding: 1.5rem;
+  }
+
+  .btn-warning.position-fixed {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(-250px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-card {
+  background: url("./Images/Background.png") no-repeat center center/cover;
+  color: white;
+}
+
+.Signup-Container {
+  background: url("./Images/Background.png") no-repeat center center/cover;
+}
+
+/* About Page */
+.about-container {
+  background: url("./Images/Background.png") no-repeat center center/cover;
+  min-height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: #f5efef;
+  padding: 50px 20px;
+}
+
+.about-content {
+  max-width: 700px;
+}
+
+.about-title {
+  color: #ff7043;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.about-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #f1eaea;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2.2rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+  }
+
+  .btn-lg {
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  transition: all 0.3s ease;
+}
+
+.bar {
+  width: 22px;
+  height: 2px;
+  background-color: #333;
+  margin: 2px 0;
+  transition: 0.4s;
+}
+
+/* Make layout responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .dashboard-container {
+    overflow-x: hidden;
+  }
+
+  .form-select {
+    width: 100% !important;
+  }
+
+  .navbar input {
+    width: 70% !important;
+  }
+
+  .card img {
+    height: 150px !important;
+    object-fit: cover;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/* Background setup */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+}
+
+/* Card styling */
+.login-card {
+  width: 100%;
+  max-width: 700%;
+  background: url("./Images/login.bg.jpg") no-repeat center center/cover;
+  border-radius: 15px;
+  padding: 30px;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Input styling */
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.form-control:focus {
+  border-color: #000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Button styling */
+.btn-dark {
+  border-radius: 10px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-dark:hover {
+  background-color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .login-card {
+    padding: 25px;
+  }
+
+  .login-page {
+    padding: 10px;
   }
 }
 
