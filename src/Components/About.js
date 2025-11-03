@@ -1,8 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import cookingGif from "../Images/gif.gif";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUtensils, faBook, faStar, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 function About() {
   return (

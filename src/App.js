@@ -9,38 +9,39 @@ import Signup from "./Components/Signup";
 import Dashboard from "./Components/Dashboard";
 import Login from "./Components/Login";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import { AuthProvider } from "./Folder/AuthContext";
 
 import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <div className="d-flex flex-column min-vh-100">
-        <Navbar />
+    <AuthProvider>
+      <Router>
+        <div className="d-flex flex-column min-vh-100">
+          <Navbar />
 
-        <main className="flex-grow-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+          <main className="flex-grow-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
 
-            {/* ✅ Protected Dashboard Route */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-
-          </Routes>
-        </main>
-        <Footer />
-     
-      </div>
-    </Router>
+              {/* ✅ Protected Dashboard Route */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

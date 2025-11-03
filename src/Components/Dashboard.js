@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Folder/AuthContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const { user, logout } = useContext(AuthContext);
+  // fall back to empty object if no user
+  const currentUser = user || {};
 
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
@@ -20,9 +23,9 @@ function Dashboard() {
 
   // 👤 profile info
   const [profile, setProfile] = useState({
-    name: user.name || "",
-    email: user.email || "",
-    phone: user.phone || "",
+    name: currentUser.name || "",
+    email: currentUser.email || "",
+    phone: currentUser.phone || "",
     photo: "",
   });
   const [editing, setEditing] = useState(false);
@@ -122,10 +125,11 @@ function Dashboard() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("user");
+    // Use AuthContext logout to clear session consistently
+    if (logout) logout();
     alert("You have been logged out.");
-    navigate("/");
+    // Redirect to dashboard after logout per user request
+    navigate("/dashboard");
   };
 
   const renderProfileSection = () => (
