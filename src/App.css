@@ -52,23 +52,121 @@ main {
   background: url('./Images/user\ background.jpg') no-repeat center center/cover;
   color: white;
 }
-/* Full-screen landing page styling */
-.home-container {
-  min-height: 100vh;
-  width: 100%;
+/* Landing Page Styles */
+.landing-page {
   background: url("./Images/Background.png") no-repeat center center/cover;
+  min-height: 100vh;
+  color: white;
+}
+
+/* Hero Section */
+.hero-section {
+  min-height: 100vh;
+  padding: 80px 20px;
+  background-color: rgba(0, 0, 0, 0.6);
   position: relative;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-image {
+  max-width: 300px;
+  margin-top: 2rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Features Section */
+.features-section {
+  background-color: #fff;
+  padding: 80px 0;
+}
+
+.feature-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card i {
+  font-size: 2.5rem;
   color: tomato;
 }
 
-/* Add overlay for readability */
-.home-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+/* Call to Action Section */
+.cta-section {
+  background-color: #f8f9fa;
+  padding: 80px 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./Images/Background.png") no-repeat center center/cover;
+  color: white;
+}
+
+/* About Section Styles */
+.about-section {
+  background-color: #fff;
+  color: #333;
+}
+
+.about-section .stats h3 {
+  color: tomato;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.about-section .stats p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Contact Section Styles */
+.contact-section {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.contact-info h5 {
+  color: tomato;
+  margin-bottom: 0.5rem;
+}
+
+.contact-form {
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form input,
+.contact-form textarea {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: tomato;
+  box-shadow: 0 0 0 0.2rem rgba(255, 99, 71, 0.25);
+  outline: none;
+}
+
+.contact-form button {
+  background-color: tomato;
+  border: none;
+  padding: 12px 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #ff5349;
+  transform: translateY(-2px);
 }
 @keyframes float {
   0% {
@@ -262,33 +360,309 @@ body, html {
   background: url("./Images/Background.png") no-repeat center center/cover;
 }
 
-/* About Page */
-.about-container {
+/* About Page Styles */
+.about-page {
   background: url("./Images/Background.png") no-repeat center center/cover;
-  min-height: 100vh;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-  color: #f5efef;
-  padding: 50px 20px;
+  color: white;
 }
 
-.about-content {
-  max-width: 700px;
+.about-hero {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 80px 0;
 }
 
 .about-title {
-  color: #ff7043;
-  font-size: 2.5rem;
+  color: tomato;
+  font-size: 3rem;
   font-weight: 700;
 }
 
 .about-text {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.8;
   color: #f1eaea;
+}
+
+/* Story Section Styles */
+.story-section {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.story-content {
+  color: #f1eaea;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-number {
+  color: tomato;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.stat-label {
+  color: #f1eaea;
+  font-size: 1.1rem;
+}
+
+/* Offerings Section Styles */
+.offerings-section {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.feature-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+}
+
+/* Cuisines Section Styles */
+.cuisines-section {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.cuisine-tag {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: rgba(255, 99, 71, 0.2);
+  border: 1px solid tomato;
+  border-radius: 20px;
+  color: #f1eaea;
+  transition: all 0.3s ease;
+}
+
+.cuisine-tag:hover {
+  background-color: tomato;
+  transform: translateY(-3px);
+}
+
+.cuisine-description {
+  color: #f1eaea;
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Community Section Styles */
+.community-section {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.community-list {
+  list-style: none;
+  padding-left: 0;
+  color: #f1eaea;
+}
+
+.community-list li {
+  margin-bottom: 15px;
+  padding-left: 30px;
+  position: relative;
+}
+
+.community-list li:before {
+  content: "✓";
+  color: tomato;
+  position: absolute;
+  left: 0;
+}
+
+.community-highlights {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.highlight-card {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.highlight-card:hover {
+  transform: translateX(10px);
+}
+
+.highlight-card h4 {
+  color: tomato;
+  margin-bottom: 5px;
+}
+
+.highlight-card p {
+  color: #f1eaea;
+  margin-bottom: 0;
+}
+
+/* Journey Section Styles */
+.journey-section {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.year-badge {
+  background-color: tomato;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.timeline-content {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.timeline-content:hover {
+  transform: translateY(-5px);
+}
+
+/* Impact Section Styles */
+.impact-section {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.impact-stats {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.impact-stats strong {
+  color: tomato;
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.achievement-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.achievement-card:hover {
+  transform: translateX(10px);
+}
+
+.achievement-icon {
+  font-size: 2rem;
+}
+
+/* Team Values Section Styles */
+.team-values-section {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.value-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+}
+
+.value-card i {
+  font-size: 2rem;
+  color: tomato;
+}
+
+/* Vision Section Styles */
+.vision-section {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 80px 0;
+}
+
+.vision-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.vision-card:hover {
+  transform: translateY(-10px);
+}
+
+.vision-icon {
+  font-size: 2.5rem;
+  color: tomato;
+}
+
+/* Reviews Section Styles */
+.reviews-section {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 80px 0;
+}
+
+.review-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+  background-color: tomato;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.rating {
+  color: #ffd700;
+  font-size: 1.2rem;
 }
 
 /* Responsive typography */
