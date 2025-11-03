@@ -386,12 +386,7 @@ function Dashboard() {
       {/* Main Content */}
       <div className="container py-5 flex-grow-1">{renderContent()}</div>
 
-      {/* 🌟 Footer (Sticky at Bottom) */}
-      <footer className="bg-dark text-center text-light py-3 mt-auto">
-        <p className="mb-0">
-          © {new Date().getFullYear()} <strong>TastyTrack</strong>. All Rights Reserved 🍽️
-        </p>
-      </footer>
+      {/* Footer removed from Dashboard to avoid duplicate site footer (global Footer component handles footer). */}
 
       {/* Recipe Modal */}
       {selectedMeal && (

@@ -47,18 +47,66 @@ function Footer() {
           {/* Social Media */}
           <div className="col-md-4 mb-4 text-center">
             <h5 className="text-warning fw-bold mb-3">Follow Us</h5>
+            <p className="small text-light">Find recipe inspiration on our social channels</p>
             <div className="d-flex justify-content-center gap-4">
-              <a href="#" className="text-light fs-4 footer-icon">
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-4 footer-icon"
+                aria-label="TastyTrack on Facebook"
+              >
                 <FaFacebook />
               </a>
-              <a href="#" className="text-light fs-4 footer-icon">
+
+              {/* Instagram: link to recipes hashtag */}
+              <a
+                href="https://www.instagram.com/explore/tags/recipes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-4 footer-icon"
+                aria-label="TastyTrack recipes on Instagram"
+              >
                 <FaInstagram />
               </a>
-              <a href="#" className="text-light fs-4 footer-icon">
+
+              <a
+                href="https://twitter.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-4 footer-icon"
+                aria-label="TastyTrack on Twitter"
+              >
                 <FaTwitter />
               </a>
-              <a href="#" className="text-light fs-4 footer-icon">
+
+              {/* YouTube: search results for recipes */}
+              <a
+                href="https://www.youtube.com/results?search_query=recipes"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-4 footer-icon"
+                aria-label="TastyTrack recipes on YouTube"
+              >
                 <FaYoutube />
+              </a>
+            </div>
+            <div className="mt-3 small">
+              <a
+                href="https://www.instagram.com/explore/tags/recipes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-decoration-none text-warning me-3"
+              >
+                Instagram Recipes
+              </a>
+              <a
+                href="https://www.youtube.com/results?search_query=recipes"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-decoration-none text-warning"
+              >
+                YouTube Recipes
               </a>
             </div>
           </div>
