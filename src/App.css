@@ -10,6 +10,31 @@
 .App-logo-spin {
   animation: App-logo-spin infinite 20s linear;
 }
+.footer-link:hover {
+  color: tomato;
+  transition: 0.3s;
+}
+
+.footer-icon:hover {
+  color: tomato;
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+}
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
 
 .highlight {
   color: tomato;
@@ -110,6 +135,15 @@ body, html {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-bg .container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 120px; 
+  /* ensures last recipes aren’t hidden behind footer */
 }
 
 .dashboard-overlay {

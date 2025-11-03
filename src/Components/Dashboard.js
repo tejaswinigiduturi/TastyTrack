@@ -14,8 +14,9 @@ function Dashboard() {
   const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeSection, setActiveSection] = useState("home");
+  const [selectedMeal, setSelectedMeal] = useState(null);
 
   // 👤 profile info
   const [profile, setProfile] = useState({
@@ -26,39 +27,78 @@ function Dashboard() {
   });
   const [editing, setEditing] = useState(false);
 
-  // ✅ Added state for selected meal details
-  const [selectedMeal, setSelectedMeal] = useState(null);
-
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchCategories();
+    fetchAllMeals();
   }, []);
 
   const fetchCategories = async () => {
     try {
       const res = await fetch("https://www.themealdb.com/api/json/v1/1/categories.php");
       const data = await res.json();
-      setCategories(data.categories || []);
+      setCategories([{ strCategory: "All" }, ...data.categories]);
     } catch (err) {
       console.error("Error fetching categories:", err);
     }
+  };
+
+  const fetchAllMeals = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=");
+      const data = await res.json();
+      setMeals(data.meals || []);
+    } catch (err) {
+      console.error("Error fetching all meals:", err);
+    }
+    setLoading(false);
   };
 
   const fetchMealsByCategory = async (category) => {
     setLoading(true);
     setSelectedCategory(category);
     try {
-      const res = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(category)}`
-      );
-      const data = await res.json();
-      setMeals(data.meals || []);
+      if (category === "All") {
+        await fetchAllMeals();
+      } else {
+        const res = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${encodeURIComponent(category)}`
+        );
+        const data = await res.json();
+        setMeals(data.meals || []);
+      }
     } catch (err) {
       console.error("Error fetching meals:", err);
       setMeals([]);
     }
     setLoading(false);
   };
+
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) return;
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`
+      );
+      const data = await res.json();
+      setMeals(data.meals || []);
+      setSelectedCategory("Search Results");
+    } catch (err) {
+      console.error("Error searching meals:", err);
+      setMeals([]);
+    }
+    setLoading(false);
+  };
+
+  // 🧹 Auto-reset to All meals when search is cleared
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      fetchAllMeals();
+      setSelectedCategory("All");
+    }
+  }, [searchTerm]);
 
   const handleMealClick = async (mealId) => {
     try {
@@ -116,7 +156,7 @@ function Dashboard() {
           className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
           style={{ background: "rgba(0,0,0,0.6)", zIndex: 2000 }}
         >
-          <div className=" edit-card p-4  text-center" style={{ width: "350px" }}>
+          <div className="edit-card p-4 text-center" style={{ width: "350px" }}>
             <h5 className="mb-3 text-light">Edit Profile</h5>
             <input
               type="file"
@@ -151,16 +191,10 @@ function Dashboard() {
               onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
             />
             <div className="d-flex justify-content-between">
-              <button
-                className="btn btn-success w-50 me-2"
-                onClick={() => setEditing(false)}
-              >
+              <button className="btn btn-success w-50 me-2" onClick={() => setEditing(false)}>
                 💾 Save
               </button>
-              <button
-                className="btn btn-secondary w-50"
-                onClick={() => setEditing(false)}
-              >
+              <button className="btn btn-secondary w-50" onClick={() => setEditing(false)}>
                 Cancel
               </button>
             </div>
@@ -212,26 +246,10 @@ function Dashboard() {
   );
 
   const renderContent = () => {
-    if (activeSection === "welcome") {
-      return (
-        <div className=" user-container text-center" style={{ padding: "50px", backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
-          <h1 className="mb-4">Welcome, {user.name || "User"} 👋</h1>
-          <p>Your dashboard is now active.</p>
-          <button className="btn btn-danger mt-3" onClick={handleLogout}>
-            Logout
-          </button>
-          <div className="mt-4">
-            <button className="btn btn-dark" onClick={() => setActiveSection("profile")}>
-              View Profile
-            </button>
-          </div>
-        </div>
-      );
-    }
-
     if (activeSection === "home") {
       return (
         <>
+          {/* 🔍 Search Bar */}
           <div className="d-flex justify-content-center mb-4">
             <input
               type="text"
@@ -240,11 +258,12 @@ function Dashboard() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className="btn btn-warning ms-2" onClick={() => fetchMealsByCategory(searchTerm)}>
+            <button className="btn btn-warning ms-2" onClick={handleSearch}>
               Search
             </button>
           </div>
 
+          {/* 🍽 Category Buttons */}
           <div className="text-center mb-4">
             <h3 className="Head-dashboard fw-bold">🍽 Browse by Category</h3>
           </div>
@@ -252,8 +271,10 @@ function Dashboard() {
           <div className="d-flex flex-wrap justify-content-center gap-2 mb-5">
             {categories.map((c) => (
               <button
-                key={c.idCategory}
-                className={`btn btn-outline-light btn-lg ${selectedCategory === c.strCategory ? "active" : ""}`}
+                key={c.strCategory}
+                className={`btn btn-outline-light btn-lg ${
+                  selectedCategory === c.strCategory ? "active" : ""
+                }`}
                 onClick={() => fetchMealsByCategory(c.strCategory)}
               >
                 {c.strCategory}
@@ -262,125 +283,125 @@ function Dashboard() {
           </div>
 
           {loading && <p className="text-center">Loading...</p>}
-          {selectedCategory && (
-            <div className="row g-4">
-              {meals.map((m) => (
-                <div
-                  key={m.idMeal}
-                  className="col-md-3"
-                  onClick={() => handleMealClick(m.idMeal)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="card h-100 shadow-sm">
-                    <img
-                      src={m.strMealThumb}
-                      alt={m.strMeal}
-                      className="card-img-top"
-                      style={{ height: "180px", objectFit: "cover" }}
-                    />
-                    <div className="card-body text-center">
-                      <h6 className="fw-bold">{m.strMeal}</h6>
-                    </div>
+          <div className="row g-4">
+            {meals.map((m) => (
+              <div
+                key={m.idMeal}
+                className="col-md-3"
+                onClick={() => handleMealClick(m.idMeal)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card h-100 shadow-sm">
+                  <img
+                    src={m.strMealThumb}
+                    alt={m.strMeal}
+                    className="card-img-top"
+                    style={{ height: "180px", objectFit: "cover" }}
+                  />
+                  <div className="card-body text-center">
+                    <h6 className="fw-bold">{m.strMeal}</h6>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </>
       );
     }
 
     if (activeSection === "profile") return renderProfileSection();
     if (activeSection === "favourites") return renderFavouritesSection();
-    return null;
   };
 
   return (
-    <div className="dashboard-bg">
-      <div className="dashboard-overlay">
-        {/* Sidebar toggler */}
-        <button
-          className="btn btn-warning position-fixed top-0 start-0 m-3 rounded-circle shadow"
-          style={{ zIndex: 1050, width: "45px", height: "45px" }}
-          onClick={() => setSidebarOpen(true)}
-        >
-          ☰
+    <div className="dashboard-bg d-flex flex-column min-vh-100">
+      {/* Sidebar Toggle Button */}
+      <button
+        className="btn btn-warning position-fixed top-0 start-0 m-3 rounded-circle shadow"
+        style={{ zIndex: 1050, width: "45px", height: "45px" }}
+        onClick={() => setSidebarOpen(true)}
+      >
+        ☰
+      </button>
+
+      {/* Sidebar */}
+      <div className={`sidebar ${sidebarOpen ? "d-block" : "d-none"}`}>
+        <h4>🍴 TastyTrack</h4>
+        <p className="small text-light mb-4">Your recipe collection</p>
+
+        <ul className="list-unstyled small">
+          <li>
+            <button
+              className={`btn w-100 text-start mb-2 ${
+                activeSection === "home" ? "btn-warning text-dark" : "btn-outline-light"
+              }`}
+              onClick={() => {
+                setActiveSection("home");
+                setSidebarOpen(false);
+              }}
+            >
+              🏠 Home
+            </button>
+          </li>
+          <li>
+            <button
+              className={`btn w-100 text-start mb-2 ${
+                activeSection === "favourites" ? "btn-warning text-dark" : "btn-outline-light"
+              }`}
+              onClick={() => {
+                setActiveSection("favourites");
+                setSidebarOpen(false);
+              }}
+            >
+              ❤️ Favourites
+            </button>
+          </li>
+          <li>
+            <button
+              className={`btn w-100 text-start mb-2 ${
+                activeSection === "profile" ? "btn-warning text-dark" : "btn-outline-light"
+              }`}
+              onClick={() => {
+                setActiveSection("profile");
+                setSidebarOpen(false);
+              }}
+            >
+              👤 Profile
+            </button>
+          </li>
+        </ul>
+
+        <button className="btn btn-outline-danger w-100 mt-3" onClick={handleLogout}>
+          🚪 Logout
         </button>
-
-        {/* Sidebar */}
-        <div className={`sidebar ${sidebarOpen ? "d-block" : "d-none"}`}>
-          <h4>🍴 TastyTrack</h4>
-          <p className="small text-light mb-4">Your recipe collection</p>
-
-          <ul className="list-unstyled small">
-            <li>
-              <button
-                className={`btn w-100 text-start mb-2 ${activeSection === "welcome" ? "btn-warning text-dark" : "btn-outline-light"}`}
-                onClick={() => {
-                  setActiveSection("welcome");
-                  setSidebarOpen(false);
-                }}
-              >
-                👋 Welcome
-              </button>
-            </li>
-            <li>
-              <button
-                className={`btn w-100 text-start mb-2 ${activeSection === "home" ? "btn-warning text-dark" : "btn-outline-light"}`}
-                onClick={() => {
-                  setActiveSection("home");
-                  setSidebarOpen(false);
-                }}
-              >
-                🏠 Home
-              </button>
-            </li>
-            <li>
-              <button
-                className={`btn w-100 text-start mb-2 ${activeSection === "favourites" ? "btn-warning text-dark" : "btn-outline-light"}`}
-                onClick={() => {
-                  setActiveSection("favourites");
-                  setSidebarOpen(false);
-                }}
-              >
-                ❤️ Favourites
-              </button>
-            </li>
-            <li>
-              <button
-                className={`btn w-100 text-start mb-2 ${activeSection === "profile" ? "btn-warning text-dark" : "btn-outline-light"}`}
-                onClick={() => {
-                  setActiveSection("profile");
-                  setSidebarOpen(false);
-                }}
-              >
-                👤 Profile
-              </button>
-            </li>
-          </ul>
-
-          <button className="btn btn-outline-danger w-100 mt-3" onClick={handleLogout}>
-            🚪 Logout
-          </button>
-
-          <button className="btn btn-outline-light w-100 mt-3" onClick={() => setSidebarOpen(false)}>
-            Close
-          </button>
-        </div>
-
-        <div className="container py-5">{renderContent()}</div>
+        <button className="btn btn-outline-light w-100 mt-3" onClick={() => setSidebarOpen(false)}>
+          Close
+        </button>
       </div>
 
-      {/* Recipe Details Modal */}
+      {/* Main Content */}
+      <div className="container py-5 flex-grow-1">{renderContent()}</div>
+
+      {/* 🌟 Footer (Sticky at Bottom) */}
+      <footer className="bg-dark text-center text-light py-3 mt-auto">
+        <p className="mb-0">
+          © {new Date().getFullYear()} <strong>TastyTrack</strong>. All Rights Reserved 🍽️
+        </p>
+      </footer>
+
+      {/* Recipe Modal */}
       {selectedMeal && (
-        <div className="modal fade show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.7)" }}>
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{ background: "rgba(0,0,0,0.7)" }}
+        >
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content border-0 rounded-4 overflow-hidden">
               <div className="modal-header bg-warning text-dark">
                 <h5 className="modal-title fw-bold">{selectedMeal.strMeal}</h5>
                 <button type="button" className="btn-close" onClick={() => setSelectedMeal(null)}></button>
               </div>
-
               <div className="modal-body bg-light text-dark p-4">
                 <div className="card border-0 shadow-sm">
                   <div className="row g-3 align-items-center p-3">
@@ -389,26 +410,18 @@ function Dashboard() {
                         src={selectedMeal.strMealThumb}
                         alt={selectedMeal.strMeal}
                         className="img-fluid rounded shadow-sm"
-                        style={{
-                          maxHeight: "200px",
-                          objectFit: "cover",
-                          width: "100%",
-                        }}
                       />
                     </div>
-
                     <div className="col-md-8">
                       <h5 className="fw-bold">{selectedMeal.strMeal}</h5>
-                      <p className="mb-1"><strong>Category:</strong> {selectedMeal.strCategory}</p>
-                      <p className="mb-1"><strong>Area:</strong> {selectedMeal.strArea}</p>
+                      <p><strong>Category:</strong> {selectedMeal.strCategory}</p>
+                      <p><strong>Area:</strong> {selectedMeal.strArea}</p>
                       <h6 className="fw-bold mt-3">Ingredients:</h6>
                       <ul className="small" style={{ columns: 2 }}>
                         {Array.from({ length: 20 }).map((_, i) => {
-                          const ingredient = selectedMeal[`strIngredient${i + 1}`];
+                          const ing = selectedMeal[`strIngredient${i + 1}`];
                           const measure = selectedMeal[`strMeasure${i + 1}`];
-                          return ingredient && (
-                            <li key={i}>{ingredient} - {measure}</li>
-                          );
+                          return ing ? <li key={i}>{ing} - {measure}</li> : null;
                         })}
                       </ul>
                     </div>
@@ -420,20 +433,15 @@ function Dashboard() {
                   </div>
 
                   <div className="card-footer bg-white d-flex flex-wrap justify-content-between gap-2 p-3">
-                    <button
-                      className="btn btn-outline-danger flex-grow-1"
-                      onClick={() => addToFavourites(selectedMeal)}
-                    >
+                    <button className="btn btn-outline-danger flex-grow-1" onClick={() => addToFavourites(selectedMeal)}>
                       ❤️ Add to Favourites
                     </button>
-
                     <button
                       className="btn btn-outline-primary flex-grow-1"
                       onClick={() => {
                         const doc = new jsPDF();
                         doc.setFontSize(18);
                         doc.text(selectedMeal.strMeal, 10, 20);
-
                         doc.setFontSize(14);
                         doc.text("Ingredients:", 10, 30);
                         autoTable(doc, {
@@ -441,26 +449,23 @@ function Dashboard() {
                           head: [["Ingredient", "Measure"]],
                           body: Array.from({ length: 20 })
                             .map((_, i) => {
-                              const ingredient = selectedMeal[`strIngredient${i + 1}`];
+                              const ing = selectedMeal[`strIngredient${i + 1}`];
                               const measure = selectedMeal[`strMeasure${i + 1}`];
-                              return ingredient ? [ingredient, measure] : null;
+                              return ing ? [ing, measure] : null;
                             })
                             .filter(Boolean),
                         });
-
                         let finalY = doc.lastAutoTable.finalY + 10;
                         doc.setFontSize(14);
-                        doc.text("Process / Instructions:", 10, finalY);
+                        doc.text("Instructions:", 10, finalY);
                         doc.setFontSize(12);
                         const splitText = doc.splitTextToSize(selectedMeal.strInstructions, 180);
                         doc.text(splitText, 10, finalY + 10);
-
                         doc.save(`${selectedMeal.strMeal}_Recipe.pdf`);
                       }}
                     >
                       ⬇️ Download PDF
                     </button>
-
                     <button className="btn btn-secondary flex-grow-1" onClick={() => setSelectedMeal(null)}>
                       ✖ Close
                     </button>

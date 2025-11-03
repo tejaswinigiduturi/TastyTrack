@@ -14,22 +14,12 @@ function Navbar() {
             src={logo}
             alt="TastyTrack Logo"
             style={{
-              height: "55px",
+              height: "100px",
               width: "auto",
               marginRight: "10px",
               objectFit: "contain",
             }}
           />
-          <span
-            style={{
-              fontSize: "1.8rem",
-              fontWeight: "700",
-              letterSpacing: "1px",
-              color: "#fff",
-            }}
-          >
-            TastyTrack
-          </span>
         </Link>
 
         {/* Mobile Toggler */}
@@ -69,8 +59,26 @@ function Navbar() {
           </ul>
         </div>
 
-        {/* Right: Sign Up (same size as links) */}
+        {/* Right: Login + Sign Up */}
         <div className="d-none d-lg-flex align-items-center">
+          {/* Login Button */}
+          <Link
+            to="/login"
+            className="nav-link fs-5 text-white mx-3"
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              transition: "0.3s",
+              borderRadius: "6px",
+              padding: "6px 12px",
+            }}
+            onMouseEnter={(e) => (e.target.style.backgroundColor = "tomato")}
+            onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+          >
+            Login
+          </Link>
+
+          {/* Sign Up Button */}
           <Link
             to="/signup"
             className="nav-link fs-5 text-white mx-3"
