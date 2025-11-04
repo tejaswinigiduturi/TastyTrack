@@ -50,7 +50,7 @@ function Login() {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
+      className="login-text d-flex justify-content-center align-items-center vh-100"
       style={{
         backgroundImage: `url(${require("../Images/Background.png")})`,
         backgroundSize: "cover",
