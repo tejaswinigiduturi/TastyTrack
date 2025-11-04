@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Folder/AuthContext";
 
 function Signup() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -17,21 +19,61 @@ function Signup() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.phone || !formData.password) {
-      setError("Please fill in all required fields");
-      return;
+    try {
+      if (!formData.name || !formData.phone || !formData.password) {
+        setError("Please fill in all required fields");
+        return;
+      }
+
+      // Validate phone number format
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(formData.phone.trim())) {
+        setError("Please enter a valid 10-digit phone number");
+        return;
+      }
+
+      // Validate password strength
+      if (formData.password.length < 6) {
+        setError("Password must be at least 6 characters long");
+        return;
+      }
+
+      // Get existing users or create empty array
+      const existingUsers = JSON.parse(localStorage.getItem("tastyTrackUsers") || "[]");
+      
+      // Check if user already exists
+      if (existingUsers.some(user => user.phone === formData.phone)) {
+        setError("A user with this phone number already exists");
+        return;
+      }
+
+      // Create new user object with ID and timestamp
+      const newUser = {
+        ...formData,
+        id: Date.now(),
+        createdAt: new Date().toISOString()
+      };
+
+      // Add new user to array
+      existingUsers.push(newUser);
+      
+      // Save updated users array
+      localStorage.setItem("tastyTrackUsers", JSON.stringify(existingUsers));
+      
+      // Log the user in
+      await login(newUser);
+
+      setError("");
+      setSuccess("Account created successfully ✅");
+
+      // Redirect to login immediately since user is logged in
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      setError("Registration failed. Please try again.");
     }
-
-    // 🔹 Save user to localStorage
-    localStorage.setItem("user", JSON.stringify(formData));
-    setError("");
-    setSuccess("Account created successfully ✅");
-
-    // Redirect to login after short delay
-    setTimeout(() => navigate("/login"), 1500);
   };
 
   return (

@@ -1,20 +1,34 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import logo from "../Images/Logo.png"; // ✅ adjust path if needed
+import logo from "../Images/Logo.png";
+import { AuthContext } from "../Folder/AuthContext";
 
 function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isDashboardRoute =
+    location.pathname === "/dashboard" ||
+    location.pathname.startsWith("/dashboard/");
+
+  const handleLogout = () => {
+    logout();
+    navigate("/dashboard");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-2">
       <div className="container-fluid px-4">
-        {/* Left: Logo + Brand Name */}
+        {/* Left: Logo */}
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img
             src={logo}
             alt="TastyTrack Logo"
             style={{
-              height: "100px",
+              height: "80px",
               width: "auto",
               marginRight: "10px",
               objectFit: "contain",
@@ -35,65 +49,103 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Center: Nav Links */}
+        {/* ✅ Collapse includes NavLinks + Buttons (Fix for small screens) */}
         <div
           className="collapse navbar-collapse justify-content-center"
           id="navbarNav"
         >
-          <ul className="navbar-nav text-center">
-            <li className="nav-item mx-3">
-              <NavLink className="nav-link fs-5" to="/">
-                Home
-              </NavLink>
-            </li>
-            <li className="nav-item mx-3">
-              <NavLink className="nav-link fs-5" to="/about">
-                About
-              </NavLink>
-            </li>
-            <li className="nav-item mx-3">
-              <NavLink className="nav-link fs-5" to="/dashboard">
-                Dashboard
-              </NavLink>
-            </li>
+          <ul className="navbar-nav text-center mx-auto">
+            {isDashboardRoute ? (
+              <li className="nav-item mx-3">
+                <NavLink className="nav-link fs-5" to="/dashboard">
+                  Dashboard
+                </NavLink>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item mx-3">
+                  <NavLink className="nav-link fs-5" to="/">
+                    Home
+                  </NavLink>
+                </li>
+                <li className="nav-item mx-3">
+                  <NavLink className="nav-link fs-5" to="/about">
+                    About
+                  </NavLink>
+                </li>
+                {user && (
+                  <li className="nav-item mx-3">
+                    <NavLink className="nav-link fs-5" to="/dashboard">
+                      Dashboard
+                    </NavLink>
+                  </li>
+                )}
+              </>
+            )}
           </ul>
-        </div>
 
-        {/* Right: Login + Sign Up */}
-        <div className="d-none d-lg-flex align-items-center">
-          {/* Login Button */}
-          <Link
-            to="/login"
-            className="nav-link fs-5 text-white mx-3"
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              transition: "0.3s",
-              borderRadius: "6px",
-              padding: "6px 12px",
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "tomato")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-          >
-            Login
-          </Link>
-
-          {/* Sign Up Button */}
-          <Link
-            to="/signup"
-            className="nav-link fs-5 text-white mx-3"
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              transition: "0.3s",
-              borderRadius: "6px",
-              padding: "6px 12px",
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "tomato")}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-          >
-            Sign Up
-          </Link>
+          {/* ✅ Move Buttons INSIDE collapse so they appear in toggler */}
+          <div className="d-flex justify-content-center my-2 my-lg-0">
+            {isDashboardRoute || user ? (
+              <button
+                onClick={handleLogout}
+                className="btn btn-outline-light fs-5 mx-2"
+                style={{
+                  transition: "0.3s",
+                  borderRadius: "6px",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = "tomato";
+                  e.target.style.borderColor = "tomato";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = "transparent";
+                  e.target.style.borderColor = "#fff";
+                }}
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="btn btn-outline-light fs-5 mx-2"
+                  style={{
+                    transition: "0.3s",
+                    borderRadius: "6px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = "tomato";
+                    e.target.style.borderColor = "tomato";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = "transparent";
+                    e.target.style.borderColor = "#fff";
+                  }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="btn btn-outline-light fs-5 mx-2"
+                  style={{
+                    transition: "0.3s",
+                    borderRadius: "6px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = "tomato";
+                    e.target.style.borderColor = "tomato";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = "transparent";
+                    e.target.style.borderColor = "#fff";
+                  }}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../Folder/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     phone: "",
     email: "",
@@ -15,33 +18,39 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔹 Get stored user from localStorage
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    try {
+      // Get all users from localStorage
+      const users = JSON.parse(localStorage.getItem("tastyTrackUsers") || "[]");
 
-    if (!storedUser) {
-      setError("No account found. Please sign up first.");
-      return;
-    }
+      // Find user with matching phone and password
+      const user = users.find(
+        u => u.phone.trim() === formData.phone.trim() && 
+        u.password.trim() === formData.password.trim()
+      );
 
-    // 🔹 Validate phone and password
-    if (
-      formData.phone.trim() === storedUser.phone.trim() &&
-      formData.password.trim() === storedUser.password.trim()
-    ) {
+      if (!user) {
+        setError("Invalid phone number or password ❌");
+        return;
+      }
+
+      // Login successful
       setError("");
-      localStorage.setItem("isLoggedIn", "true");
-      navigate("/dashboard"); // ✅ Redirect to dashboard
-    } else {
-      setError("Invalid username or password ❌");
+      await login(user);
+
+      // Redirect to the page they tried to visit or dashboard
+      const from = location.state?.from?.pathname || "/dashboard";
+      navigate(from, { replace: true });
+    } catch (err) {
+      setError("Login failed. Please try again.");
     }
   };
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
+      className="login-text d-flex justify-content-center align-items-center vh-100"
       style={{
         backgroundImage: `url(${require("../Images/Background.png")})`,
         backgroundSize: "cover",
@@ -106,7 +115,7 @@ function Login() {
         <p className="text-center mt-3 mb-0">
           Don’t have an account?{" "}
           <span
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/")}
             style={{ color: "blue", cursor: "pointer" }}
           >
             Sign up
