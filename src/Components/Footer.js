@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaYoutube, FaFacebook } from "react-icons/fa";
 
-// Small helper to validate email
-const isValidEmail = (email) => {
-  return /^\S+@\S+\.\S+$/.test(email);
-};
+const isValidEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
 
 function Footer() {
   const [email, setEmail] = useState("");
@@ -18,7 +15,6 @@ function Footer() {
       return;
     }
 
-    // Save subscriber locally (simple demo)
     const subs = JSON.parse(localStorage.getItem("tastyTrackSubscribers") || "[]");
     if (!subs.includes(email)) {
       subs.push(email);
@@ -32,99 +28,156 @@ function Footer() {
   };
 
   return (
-    <footer className="footer bg-dark text-white pt-5 pb-3 mt-auto">
+    <footer className="bg-dark text-light pt-5 pb-3 mt-auto">
       <div className="container">
-        <div className="row">
-          {/* Column: Product */}
-          <div className="col-lg-3 col-md-6 mb-4">
-            <h5 className="fw-bold">Product</h5>
-            <ul className="list-unstyled small mt-3">
-              <li className="mb-2">Explore Recipes</li>
-              <li className="mb-2">Favorites</li>
-              <li className="mb-2">Collections</li>
-            </ul>
-          </div>
-
-          {/* Column: Support */}
-          <div className="col-lg-3 col-md-6 mb-4">
-            <h5 className="fw-bold">Support</h5>
-            <ul className="list-unstyled small mt-3">
+        <div className="row gy-4">
+          {/* 🌿 Featured Recipes */}
+          <div className="col-lg-3 col-md-6">
+            <h5 className="fw-bold text-warning">Featured Recipes</h5>
+            <ul className="list-unstyled mt-3 small">
               <li className="mb-2">
-                <Link to="/contact" className="footer-link">Contact Us</Link>
+                <Link to="/recipes/italian" className="footer-link text-light text-decoration-none">
+                  🍝 Italian Classics
+                </Link>
               </li>
-              <li className="mb-2">FAQ</li>
-              <li className="mb-2">Refund &amp; Returns</li>
-              <li className="mb-2">Privacy Policy</li>
-            </ul>
-          </div>
-
-          {/* Column: About */}
-          <div className="col-lg-3 col-md-6 mb-4">
-            <h5 className="fw-bold">About</h5>
-            <ul className="list-unstyled small mt-3">
               <li className="mb-2">
-                <Link to="/about" className="footer-link">Our Story</Link>
+                <Link to="/recipes/healthy" className="footer-link text-light text-decoration-none">
+                  🥗 Healthy Meals
+                </Link>
               </li>
-              <li className="mb-2">How It Works</li>
-              <li className="mb-2">Reviews</li>
-              <li className="mb-2">Blog</li>
+              <li className="mb-2">
+                <Link to="/recipes/desserts" className="footer-link text-light text-decoration-none">
+                  🍰 Sweet Desserts
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/recipes/trending" className="footer-link text-light text-decoration-none">
+                  🔥 Trending Recipes
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Column: Resources & Subscribe */}
-          <div className="col-lg-3 col-md-6 mb-4">
-            <h5 className="fw-bold">Resources</h5>
-            <ul className="list-unstyled small mt-3">
-              <li className="mb-2">Affiliates</li>
-              <li className="mb-2">Brand Ambassadors</li>
-              <li className="mb-2">Refer a Friend</li>
+          {/* 🧭 Quick Links */}
+          <div className="col-lg-3 col-md-6">
+            <h5 className="fw-bold text-warning">Quick Links</h5>
+            <ul className="list-unstyled mt-3 small">
+              <li className="mb-2">
+                <Link to="/about" className="footer-link text-light text-decoration-none">
+                  About Us
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/contact" className="footer-link text-light text-decoration-none">
+                  Contact
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/faq" className="footer-link text-light text-decoration-none">
+                  FAQ
+                </Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/privacy" className="footer-link text-light text-decoration-none">
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
+          </div>
 
-            <div className="mt-3">
-              <label className="form-label small d-block mb-2">Sign up to our mailing list</label>
-              <form onSubmit={handleSubscribe} className="d-flex">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                  className="form-control me-2"
-                  aria-label="Email address"
-                  required
-                />
-                <button className="btn btn-success" type="submit">Subscribe</button>
-              </form>
-              {msg && <div className="small mt-2 text-warning">{msg}</div>}
+          {/* 📩 Newsletter */}
+          <div className="col-lg-3 col-md-6">
+            <h5 className="fw-bold text-warning">Stay Updated</h5>
+            <p className="small mt-3">
+              Join our newsletter for weekly recipe inspiration.
+            </p>
+            <form onSubmit={handleSubscribe} className="d-flex">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email"
+                className="form-control me-2"
+                required
+              />
+              <button type="submit" className="btn btn-success">
+                Subscribe
+              </button>
+            </form>
+            {msg && <div className="small mt-2 text-warning">{msg}</div>}
+          </div>
+
+          {/* 📱 App & Social Links */}
+          <div className="col-lg-3 col-md-6">
+            <h5 className="fw-bold text-warning">Get the App</h5>
+            <div className="d-flex flex-column gap-2 mt-3">
+              {/* ✅ Tasty App */}
+              <a
+                href="https://play.google.com/store/apps/details?id=com.buzzfeed.tasty"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline-light btn-sm"
+              >
+                🍳 Get Tasty on Google Play
+              </a>
+              
+
+              {/* ✅ Yummly App */}
+              <a
+                href="https://play.google.com/store/apps/details?id=com.yummly.android"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline-light btn-sm"
+              >
+                🧁 Get Yummly on Google Play
+              </a>
+             
+             
+             
+            </div>
+
+            {/* 🌐 Social Links */}
+            <div className="d-flex gap-3 mt-4">
+              <a
+                href="https://www.instagram.com/explore/tags/recipes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-5"
+              >
+                <FaInstagram />
+              </a>
+              <a
+                href="https://www.youtube.com/results?search_query=recipes"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-5"
+              >
+                <FaYoutube />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-5"
+              >
+                <FaTwitter />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-light fs-5"
+              >
+                <FaFacebook />
+              </a>
             </div>
           </div>
         </div>
 
-        <div className="row align-items-center mt-4">
-          <div className="col-md-6">
-            <div className="small">
-              <strong>TastyTrack LLC</strong>
-              <div>1007 North Orange St, Wilmington DE 19801</div>
-              <div>support@tastytrack.com</div>
-            </div>
-            <div className="mt-3 d-flex gap-2">
-              <a href="https://play.google.com" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light btn-sm">Get it on Google Play</a>
-              <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light btn-sm">Download on the App Store</a>
-            </div>
-          </div>
-
-          <div className="col-md-6 text-md-end mt-3 mt-md-0">
-            <div className="d-flex justify-content-md-end gap-3 align-items-center">
-              <a href="https://www.instagram.com/explore/tags/recipes/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="footer-icon text-light"><FaInstagram /></a>
-              <a href="https://www.youtube.com/results?search_query=recipes" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="footer-icon text-light"><FaYoutube /></a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="footer-icon text-light"><FaTwitter /></a>
-            </div>
-          </div>
-        </div>
-
-        <hr className="border-secondary mt-4" />
-        <div className="bottom-row small text-center text-md-start text-muted">
-          <div>© {new Date().getFullYear()} <span className="text-warning fw-bold">TastyTrack</span></div>
-          <div>All Rights Reserved</div>
+        <hr className="border-secondary mt-5" />
+        <div className="text-center small text-muted">
+          © {new Date().getFullYear()}{" "}
+          <span className="text-warning fw-bold">TastyTrack</span> — Delicious recipes, anytime.
         </div>
       </div>
     </footer>

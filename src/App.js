@@ -24,7 +24,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-
+              
               {/* ✅ Protected Dashboard Route */}
               <Route
                 path="/dashboard"
@@ -34,10 +34,12 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
             </Routes>
           </main>
+
           <Footer />
         </div>
       </Router>
@@ -46,5 +48,3 @@ function App() {
 }
 
 export default App;
-
-

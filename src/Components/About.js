@@ -5,33 +5,6 @@ import cookingGif from "../Images/gif.gif";
 import { Link } from "react-router-dom";
 
 function About() {
-  const features = [
-    {
-      icon: "🔍",
-      title: "Search & Discover",
-      description:
-        "Browse through thousands of recipes from different cuisines. Use filters to find meals that match your taste and dietary needs.",
-    },
-    {
-      icon: "❤️",
-      title: "Save Favorites",
-      description:
-        "Found a recipe you love? Add it to your favorites for quick access. Build your personal cookbook of go-to meals.",
-    },
-    {
-      icon: "📱",
-      title: "Easy Access",
-      description:
-        "Access your saved recipes anytime, anywhere. All your favorite dishes are just a click away in your dashboard.",
-    },
-    {
-      icon: "⬇️",
-      title: "Download Recipes",
-      description:
-        "Download recipe details as PDF for offline access. Perfect for cooking without internet or sharing with friends.",
-    },
-  ];
-
   const steps = [
     {
       number: "1",
@@ -72,14 +45,6 @@ function About() {
           favorites, and bring restaurant-quality taste right to your home.
         </p>
 
-        {/* How It Works Section */}
-        <h2 className="about-title fw-bold mb-4">How It Works</h2>
-        <p className="about-text">
-          TastyTrack simplifies your cooking experience by providing easy access
-          to recipes, meal planning, and grocery lists. Our platform is designed
-          to help you save time and enjoy cooking more.
-        </p>
-        
         <img
           src={cookingGif}
           alt="Cooking GIF"
@@ -91,26 +56,10 @@ function About() {
             alignItems: "right",
           }}
         />
-        <Link to="/signup" className="btn btn-primary">
+
+        <Link to="/signup" className="btn btn-primary mb-5">
           Get Started
         </Link>
-
-        {/* Feature Cards */}
-        <div className="row g-4 mb-5">
-          {features.map((feature, index) => (
-            <div key={index} className="col-md-6 col-lg-3">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body   text-center">
-                  <div className="display-5 mb-3">{feature.icon}</div>
-                  <h5 className="card-title fw-bold mb-3">{feature.title}</h5>
-                  <p className="card-text text-light">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
 
         {/* How to Use Steps */}
         <div className="steps-section mt-5">
@@ -122,7 +71,7 @@ function About() {
               <div key={index} className="col-md-6 col-lg-3">
                 <div className="step-card text-center">
                   <div className="step-number mb-3">
-                    <span className="badge bg-primary  rounded-circle p-3">
+                    <span className="badge bg-primary rounded-circle p-3">
                       {step.number}
                     </span>
                   </div>
