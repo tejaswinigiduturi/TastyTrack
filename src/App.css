@@ -41,13 +41,14 @@ main {
   font-weight: 500%;
 }
 .card-body{
-  background: url('./Images/Background.png') no-repeat center center/cover;
+  background: url('./Images/download\ \(8\).jpg') no-repeat center center/cover;
   color: white;
 }
 .edit-card{
    background: url('./Images/download.jpg') no-repeat center center/cover;
   color: white;
 }
+
 .user-container{
   background: url('./Images/user\ background.jpg') no-repeat center center/cover;
   color: white;
