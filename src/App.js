@@ -8,7 +8,7 @@ import Footer from "./Components/Footer";
 import Signup from "./Components/Signup";
 import Dashboard from "./Components/Dashboard";
 import Login from "./Components/Login";
-import ProtectedRoute from "./Components/ProtectedRoute";
+//import ProtectedRoute from "./Components/ProtectedRoute";
 import { AuthProvider } from "./Folder/AuthContext";
 
 import "./App.css";
@@ -29,9 +29,9 @@ function App() {
               <Route
                 path="/dashboard"
                 element={
-                  <ProtectedRoute>
+                //  <ProtectedRoute>
                     <Dashboard />
-                  </ProtectedRoute>
+                 // </ProtectedRoute>
                 }
               />
               
