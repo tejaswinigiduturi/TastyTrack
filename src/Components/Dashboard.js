@@ -136,7 +136,7 @@ function Dashboard() {
     <div className="p-4 text-center">
       <h3 className="text-warning fw-bold mb-3">👤 User Profile</h3>
       <div className="card mx-auto shadow-sm" style={{ maxWidth: "400px" }}>
-        <div className="card-body">
+        <div className="card-container">
           <img
             src={profile.photo || "https://via.placeholder.com/100"}
             alt="Profile"
